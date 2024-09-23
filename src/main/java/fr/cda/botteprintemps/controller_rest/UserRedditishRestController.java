@@ -1,8 +1,10 @@
 package fr.cda.botteprintemps.controller_rest;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import fr.cda.botteprintemps.dto.redditish.UserUpdateDTO;
 import fr.cda.botteprintemps.entity.User;
 import fr.cda.botteprintemps.entity.redditish.UserRedditish;
+import fr.cda.botteprintemps.json_views.JsonViews;
 import fr.cda.botteprintemps.service.redditish.UserRedditishService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +21,13 @@ public class UserRedditishRestController {
 
     // Requête HTTP de type GET
     @GetMapping(name = "list")
+    @JsonView(JsonViews.UserRedditishList.class)
     public List<UserRedditish> list() {
         return userRedditishService.list();
     }
 
     @GetMapping(value = "/{slug}", name = "show")
+    @JsonView(JsonViews.UserRedditishShow.class)
     public UserRedditish show(@PathVariable String slug) {
         return userRedditishService.findOneBySlug(slug);
     }

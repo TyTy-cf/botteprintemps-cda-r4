@@ -1,5 +1,7 @@
 package fr.cda.botteprintemps.entity.redditish;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import fr.cda.botteprintemps.json_views.JsonViews;
 import fr.cda.botteprintemps.slugger.SluggerInterface;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,9 +26,11 @@ public class UserRedditish implements SluggerInterface {
     private Long id;
 
     @Column(length = 120, nullable = false)
+    @JsonView(JsonViews.UserRedditishShow.class)
     private String email;
 
     @Column(length = 120, nullable = false)
+    @JsonView(JsonViews.UserRedditishList.class)
     private String nickname;
 
     @Column(length = 120, nullable = false)
@@ -35,18 +39,23 @@ public class UserRedditish implements SluggerInterface {
     private String activationCode;
 
     @Column(nullable = false)
+    @JsonView(JsonViews.UserRedditishList.class)
     private LocalDateTime registeredAt = LocalDateTime.now();
 
     @Column(length = 120, nullable = false)
+    @JsonView(JsonViews.UserRedditishList.class)
     private String slug;
 
     @OneToMany(mappedBy = "user")
+    @JsonView(JsonViews.UserRedditishShow.class)
     private List<UserFavoriteCategory> favorites = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
+    @JsonView(JsonViews.UserRedditishShow.class)
     private List<Follow> follows = new ArrayList<>();
 
     @OneToMany(mappedBy = "writer")
+    @JsonView(JsonViews.UserRedditishShow.class)
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
@@ -55,6 +64,11 @@ public class UserRedditish implements SluggerInterface {
     @Override
     public String getField() {
         return UUID.randomUUID() + "-" + nickname;
+    }
+
+    @JsonView(JsonViews.UserRedditishList.class)
+    public boolean isActive() {
+        return activationCode == null;
     }
 
 }

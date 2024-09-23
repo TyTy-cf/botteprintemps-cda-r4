@@ -1,5 +1,7 @@
 package fr.cda.botteprintemps.entity.redditish;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import fr.cda.botteprintemps.json_views.JsonViews;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -20,11 +22,14 @@ public class Comment {
     private Long id;
 
     @Column(nullable = false, columnDefinition = "TEXT")
+    @JsonView(JsonViews.UserRedditishShow.class)
     private String content;
 
     @Column(nullable = false)
+    @JsonView(JsonViews.UserRedditishShow.class)
     private LocalDateTime createdAt;
 
+    @JsonView(JsonViews.UserRedditishShow.class)
     private LocalDateTime updatedAt;
 
     @ManyToOne
@@ -39,6 +44,7 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(nullable = false)
+    @JsonView(JsonViews.UserRedditishShow.class)
     private Thread thread;
 
     @OneToMany(mappedBy = "comment")

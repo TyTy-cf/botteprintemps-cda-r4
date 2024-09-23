@@ -1,5 +1,7 @@
 package fr.cda.botteprintemps.entity.redditish;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import fr.cda.botteprintemps.json_views.JsonViews;
 import fr.cda.botteprintemps.slugger.SluggerInterface;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,12 +23,14 @@ public class Thread implements SluggerInterface {
     private Long id;
 
     @Column(nullable = false)
+    @JsonView(JsonViews.UserRedditishShow.class)
     private String title;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
     @Column(nullable = false)
+    @JsonView(JsonViews.UserRedditishShow.class)
     private String slug;
 
     @ManyToOne
