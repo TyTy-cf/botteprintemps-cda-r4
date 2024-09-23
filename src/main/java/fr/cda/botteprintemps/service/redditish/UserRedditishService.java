@@ -43,7 +43,11 @@ public class UserRedditishService implements ServiceListInterface<UserRedditish,
     }
 
     @Override
-    public List<?> list() {
+    public List<UserRedditish> list() {
         return repository.findAll();
+    }
+
+    public UserRedditish findOneBySlug(String slug) {
+        return repository.findOneBySlug(slug).orElseThrow();
     }
 }

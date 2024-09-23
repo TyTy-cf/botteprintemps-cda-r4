@@ -1,5 +1,6 @@
 package fr.cda.botteprintemps.entity.redditish;
 
+import fr.cda.botteprintemps.slugger.SluggerInterface;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Data
-public class Thread {
+public class Thread implements SluggerInterface {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,4 +36,8 @@ public class Thread {
     @OneToMany(mappedBy = "thread")
     private List<Comment> comments = new ArrayList<>();
 
+    @Override
+    public String getField() {
+        return category.getName() + "-" + title;
+    }
 }

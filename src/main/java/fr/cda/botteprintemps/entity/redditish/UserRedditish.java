@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,7 +35,7 @@ public class UserRedditish implements SluggerInterface {
     private String activationCode;
 
     @Column(nullable = false)
-    private LocalDateTime registeredAt;
+    private LocalDateTime registeredAt = LocalDateTime.now();
 
     @Column(length = 120, nullable = false)
     private String slug;
@@ -53,7 +54,7 @@ public class UserRedditish implements SluggerInterface {
 
     @Override
     public String getField() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-");
-        return registeredAt.format(formatter) + nickname;
+        return UUID.randomUUID() + "-" + nickname;
     }
+
 }
