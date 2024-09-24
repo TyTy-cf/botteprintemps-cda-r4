@@ -30,7 +30,7 @@ public class UserRedditish implements SluggerInterface {
     private String email;
 
     @Column(length = 120, nullable = false)
-    @JsonView(JsonViews.UserRedditishList.class)
+    @JsonView(JsonViews.UserRedditishMinimalView.class)
     private String nickname;
 
     @Column(length = 120, nullable = false)
@@ -39,11 +39,11 @@ public class UserRedditish implements SluggerInterface {
     private String activationCode;
 
     @Column(nullable = false)
-    @JsonView(JsonViews.UserRedditishList.class)
+    @JsonView(JsonViews.UserRedditishMinimalView.class)
     private LocalDateTime registeredAt = LocalDateTime.now();
 
     @Column(length = 120, nullable = false)
-    @JsonView(JsonViews.UserRedditishList.class)
+    @JsonView(JsonViews.UserRedditishMinimalView.class)
     private String slug;
 
     @OneToMany(mappedBy = "user")
@@ -66,7 +66,7 @@ public class UserRedditish implements SluggerInterface {
         return UUID.randomUUID() + "-" + nickname;
     }
 
-    @JsonView(JsonViews.UserRedditishList.class)
+    @JsonView(JsonViews.UserRedditishMinimalView.class)
     public boolean isActive() {
         return activationCode == null;
     }
