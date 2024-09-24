@@ -1,15 +1,20 @@
 package fr.cda.botteprintemps.controller_rest;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import fr.cda.botteprintemps.custom_response.CustomResponse;
+import fr.cda.botteprintemps.dto.redditish.UserRegisterDTO;
 import fr.cda.botteprintemps.dto.redditish.UserUpdateDTO;
 import fr.cda.botteprintemps.entity.User;
 import fr.cda.botteprintemps.entity.redditish.UserRedditish;
 import fr.cda.botteprintemps.json_views.JsonViews;
 import fr.cda.botteprintemps.service.redditish.UserRedditishService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -23,6 +28,7 @@ public class UserRedditishRestController {
     @GetMapping(name = "list")
     @JsonView(JsonViews.UserRedditishList.class)
     public List<UserRedditish> list() {
+        System.out.println(JsonViews.UserRedditishList.class);
         return userRedditishService.list();
     }
 
@@ -30,6 +36,12 @@ public class UserRedditishRestController {
     @JsonView(JsonViews.UserRedditishShow.class)
     public UserRedditish show(@PathVariable String slug) {
         return userRedditishService.findOneBySlug(slug);
+    }
+
+    @PostMapping(name = "create")
+    @JsonView(JsonViews.UserRedditishShow.class)
+    public UserRedditish create(@Valid @RequestBody UserRegisterDTO dto) {
+        return userRedditishService.create(dto);
     }
 
     @PutMapping(value = "/{id}", name = "update")

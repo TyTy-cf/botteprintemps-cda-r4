@@ -1,8 +1,11 @@
 package fr.cda.botteprintemps.service.redditish;
 
+import fr.cda.botteprintemps.dto.redditish.UserRegisterDTO;
 import fr.cda.botteprintemps.entity.redditish.UserRedditish;
+import fr.cda.botteprintemps.exception.CustomEntityNotFoundException;
 import fr.cda.botteprintemps.repository.redditish.UserRedditishRepository;
 import fr.cda.botteprintemps.service.interfaces.ServiceListInterface;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,15 +15,19 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class UserRedditishService implements ServiceListInterface<UserRedditish, Long, UserRedditish, UserRedditish> {
+public class UserRedditishService implements
+        ServiceListInterface<UserRedditish, Long, UserRegisterDTO, UserRedditish> {
 
     private UserRedditishRepository repository;
 
     @Override
-    public UserRedditish create(UserRedditish o) {
-        o.setRegisteredAt(LocalDateTime.now());
-        repository.saveAndFlush(o);
-        return o;
+    public UserRedditish create(UserRegisterDTO o) {
+        UserRedditish user = new UserRedditish();
+        user.setRegisteredAt(LocalDateTime.now());
+        user.setEmail(o.getEmail());
+        user.setNickname(o.getNickname());
+        user.setPassword(o.getPassword());
+        return repository.saveAndFlush(user);
     }
 
     @Override
@@ -39,7 +46,7 @@ public class UserRedditishService implements ServiceListInterface<UserRedditish,
 
     @Override
     public UserRedditish findOneById(Long id) {
-        return repository.findById(id).orElseThrow();
+        return repository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
@@ -48,6 +55,17 @@ public class UserRedditishService implements ServiceListInterface<UserRedditish,
     }
 
     public UserRedditish findOneBySlug(String slug) {
-        return repository.findOneBySlug(slug).orElseThrow();
+//        Optional<UserRedditish> optional = repository.findOneBySlug(slug);
+//        if (optional.isEmpty()) {
+//            throw new EntityNotFoundException();
+//        }
+//        return optional.get();
+        return repository.findOneBySlug(slug).orElseThrow(() ->
+            new CustomEntityNotFoundException(
+                "slug",
+                slug,
+                UserRedditish.class.getSimpleName()
+            )
+        );
     }
 }

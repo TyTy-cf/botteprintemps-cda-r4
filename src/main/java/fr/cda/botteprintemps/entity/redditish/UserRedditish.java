@@ -44,7 +44,7 @@ public class UserRedditish implements SluggerInterface {
 
     @Column(length = 120, nullable = false)
     @JsonView(JsonViews.UserRedditishMinimalView.class)
-    private String slug;
+    private String slug = "";
 
     @OneToMany(mappedBy = "user")
     @JsonView(JsonViews.UserRedditishShow.class)
