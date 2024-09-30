@@ -30,31 +30,31 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain getFilterChain(HttpSecurity http) throws Exception {
         http
-                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth ->
-                        auth
-                            .requestMatchers("/api/login", "/api/register").permitAll()
-                            .requestMatchers(
-                                    AntPathRequestMatcher.antMatcher("/v3/api-docs/**"),
-                                    AntPathRequestMatcher.antMatcher("/swagger-ui/**"),
-                                    AntPathRequestMatcher.antMatcher(HttpMethod.GET,"/api/thread/**"),
-                                    AntPathRequestMatcher.antMatcher(HttpMethod.GET,"/api/category/**")
-                            ).permitAll()
-                            .requestMatchers(
-                                    AntPathRequestMatcher.antMatcher("/api/user/**"),
-                                    AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/comment"),
-                                    AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/thread"),
-                                    AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/reaction"),
-                                    AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/follow"),
-                                    AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/user_favorite_category"),
-                                    AntPathRequestMatcher.antMatcher(HttpMethod.PUT,"/api/comment/**"),
-                                    AntPathRequestMatcher.antMatcher(HttpMethod.DELETE, "/api/comment/**")
-                            ).authenticated()
-                            .requestMatchers(AntPathRequestMatcher.antMatcher("/api/**")).hasAnyAuthority("ADMIN", "SUPER_ADMIN")
+            .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .csrf(AbstractHttpConfigurer::disable)
+            .authorizeHttpRequests(auth ->
+                auth
+                    .requestMatchers("/api/login", "/api/register").permitAll()
+                    .requestMatchers(
+                        AntPathRequestMatcher.antMatcher("/v3/api-docs/**"),
+                        AntPathRequestMatcher.antMatcher("/swagger-ui/**"),
+                        AntPathRequestMatcher.antMatcher(HttpMethod.GET,"/api/thread/**"),
+                        AntPathRequestMatcher.antMatcher(HttpMethod.GET,"/api/category/**")
+                    ).permitAll()
+                    .requestMatchers(
+                        AntPathRequestMatcher.antMatcher("/api/user/**"),
+                        AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/comment"),
+                        AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/thread"),
+                        AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/reaction"),
+                        AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/follow"),
+                        AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/user_favorite_category"),
+                        AntPathRequestMatcher.antMatcher(HttpMethod.PUT,"/api/comment/**"),
+                        AntPathRequestMatcher.antMatcher(HttpMethod.DELETE, "/api/comment/**")
+                    ).authenticated()
+                    .requestMatchers(AntPathRequestMatcher.antMatcher("/api/**")).hasAnyAuthority("ADMIN", "SUPER_ADMIN")
 //                            .requestMatchers(AntPathRequestMatcher.antMatcher("/admin/**")).hasAuthority("ADMIN")
-                );
+            );
         return http.build();
     }
 
