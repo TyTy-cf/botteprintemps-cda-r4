@@ -32,6 +32,8 @@ public class JwtService {
     }
 
     public String generateToken(String username) {
+        // If ya want to add more claims to this token
+        // There you add to the "claims" Map
 //        Map<String, Object> claims = new HashMap<>();
         return Jwts.builder()
                 .claims()

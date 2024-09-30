@@ -78,7 +78,7 @@ public class UserRedditishService implements
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserRedditish user = repository.findByEmail(username)
+        UserRedditish user = repository.findByEmailAndActivationCodeIsNull(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Les cochons sont dans la baie"));
 
         return new User(
