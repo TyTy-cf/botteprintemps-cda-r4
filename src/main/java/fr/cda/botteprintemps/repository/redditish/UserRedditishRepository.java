@@ -14,4 +14,6 @@ public interface UserRedditishRepository extends
 
     Optional<UserRedditish> findByNickname(String nickname);
 
+    Optional<UserRedditish> findByEmail(String email);
+
 }

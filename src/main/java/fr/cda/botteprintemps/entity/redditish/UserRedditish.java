@@ -7,11 +7,12 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,7 +20,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Data
-public class UserRedditish implements SluggerInterface {
+public class UserRedditish implements SluggerInterface, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +38,8 @@ public class UserRedditish implements SluggerInterface {
     private String password;
 
     private String activationCode;
+
+    private String roles;
 
     @Column(nullable = false)
     @JsonView(JsonViews.UserRedditishMinimalView.class)
@@ -71,4 +74,18 @@ public class UserRedditish implements SluggerInterface {
         return activationCode == null;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isActive();
+    }
 }

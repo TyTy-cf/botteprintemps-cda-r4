@@ -11,6 +11,7 @@ import fr.cda.botteprintemps.repository.redditish.UserRedditishRepository;
 import lombok.AllArgsConstructor;
 import net.datafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -26,6 +27,7 @@ public class InitDataLoaderConfig implements CommandLineRunner {
     private CommentRepository commentRepository;
     private ThreadRepository threadRepository;
     private CategoryRepository categoryRepository;
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) {
@@ -95,8 +97,9 @@ public class InitDataLoaderConfig implements CommandLineRunner {
                 user.setId(i);
                 user.setNickname(name);
                 user.setEmail(faker.internet().emailAddress());
-                user.setPassword(faker.internet().password(8, 12));
+                user.setPassword(passwordEncoder.encode("12345"));
                 user.setRegisteredAt(LocalDateTime.now());
+                user.setRoles("[\"ROLE_USER\"]");
                 user.setSlug("");
 
 //                User u = new User();
