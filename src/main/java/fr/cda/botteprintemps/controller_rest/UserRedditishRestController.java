@@ -28,7 +28,6 @@ public class UserRedditishRestController {
     @GetMapping(name = "list")
     @JsonView(JsonViews.UserRedditishList.class)
     public List<UserRedditish> list() {
-        System.out.println(JsonViews.UserRedditishList.class);
         return userRedditishService.list();
     }
 
@@ -36,12 +35,6 @@ public class UserRedditishRestController {
     @JsonView(JsonViews.UserRedditishShow.class)
     public UserRedditish show(@PathVariable String slug) {
         return userRedditishService.findOneBySlug(slug);
-    }
-
-    @PostMapping(name = "create")
-    @JsonView(JsonViews.UserRedditishShow.class)
-    public UserRedditish create(@Valid @RequestBody UserRegisterDTO dto) {
-        return userRedditishService.create(dto);
     }
 
     @PutMapping(value = "/{id}", name = "update")

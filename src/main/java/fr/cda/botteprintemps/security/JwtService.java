@@ -32,11 +32,12 @@ public class JwtService {
     }
 
     public String generateToken(String username) {
-        Map<String, Object> claims = new HashMap<>();
+//        Map<String, Object> claims = new HashMap<>();
         return Jwts.builder()
                 .claims()
-                .add(claims)
+//                .add(claims)
                 .subject(username)
+                .issuer("botteprintemps")
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 60 * 60 * 1000)) // Update the time limit
                 .and() // add more infos to the token ?
