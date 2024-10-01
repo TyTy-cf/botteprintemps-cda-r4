@@ -9,7 +9,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -81,7 +80,7 @@ public class UserRedditishService implements
         UserRedditish user = repository.findByEmailAndActivationCodeIsNull(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Les cochons sont dans la baie"));
 
-        return new User(
+        return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),
                 userGrantedAuthority(user.getRoles())

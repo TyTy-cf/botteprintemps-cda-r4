@@ -18,7 +18,7 @@ import java.util.Map;
 
 @RestController
 @AllArgsConstructor
-// Toutes les requêtes HTTP commençant par "/api/user" sont intercéptées ICI
+// Toutes les requêtes HTTP commençant par "/api/user" sont interceptées ICI
 @RequestMapping(value = "/api/user", name = "app_user_")
 public class UserRedditishRestController {
 

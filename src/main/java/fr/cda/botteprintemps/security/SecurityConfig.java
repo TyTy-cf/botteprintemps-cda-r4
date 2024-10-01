@@ -43,17 +43,19 @@ public class SecurityConfig {
                         AntPathRequestMatcher.antMatcher(HttpMethod.GET,"/api/category/**")
                     ).permitAll()
                     .requestMatchers(
-                        AntPathRequestMatcher.antMatcher("/api/user/**"),
-                        AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/comment"),
+                        AntPathRequestMatcher.antMatcher("/api/user/**"), // Doesnt need it, it just an example !
+                        AntPathRequestMatcher.antMatcher("/api/comment/**"),
                         AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/thread"),
                         AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/reaction"),
                         AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/follow"),
-                        AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/user_favorite_category"),
-                        AntPathRequestMatcher.antMatcher(HttpMethod.PUT,"/api/comment/**"),
-                        AntPathRequestMatcher.antMatcher(HttpMethod.DELETE, "/api/comment/**")
+                        AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/user_favorite_category")
                     ).authenticated()
-                    .requestMatchers(AntPathRequestMatcher.antMatcher("/api/**")).hasAnyAuthority("ADMIN", "SUPER_ADMIN")
-//                            .requestMatchers(AntPathRequestMatcher.antMatcher("/admin/**")).hasAuthority("ADMIN")
+                    .requestMatchers( // Useless there, but example to secure all admin route
+                        AntPathRequestMatcher.antMatcher("/api/admin/**")
+                    ).hasAuthority("ADMIN")
+                    .requestMatchers(
+                        AntPathRequestMatcher.antMatcher("/api/**")
+                    ).hasAnyAuthority("ADMIN", "SUPER_ADMIN")
             );
         return http.build();
     }
