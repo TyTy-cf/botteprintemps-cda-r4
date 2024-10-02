@@ -40,11 +40,10 @@ public class SecurityConfig {
                         AntPathRequestMatcher.antMatcher("/v3/api-docs/**"),
                         AntPathRequestMatcher.antMatcher("/swagger-ui/**"),
                         AntPathRequestMatcher.antMatcher(HttpMethod.GET,"/api/thread/**"),
-                        AntPathRequestMatcher.antMatcher(HttpMethod.GET,"/api/user/**"),
                         AntPathRequestMatcher.antMatcher(HttpMethod.GET,"/api/category/**")
                     ).permitAll()
                     .requestMatchers(
-                        AntPathRequestMatcher.antMatcher("/api/user"), // For a real API, we don't need it, it just an example !
+                        AntPathRequestMatcher.antMatcher("/api/user/**"), // For a real API, we don't need it, it just an example !
                         AntPathRequestMatcher.antMatcher("/api/comment/**"),
                         AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/thread"),
                         AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/reaction"),
