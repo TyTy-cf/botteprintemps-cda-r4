@@ -1,5 +1,6 @@
 package fr.cda.botteprintemps.service.redditish;
 
+import fr.cda.botteprintemps.dto.redditish.UserDisplayDTO;
 import fr.cda.botteprintemps.dto.redditish.UserRegisterDTO;
 import fr.cda.botteprintemps.entity.redditish.UserRedditish;
 import fr.cda.botteprintemps.exception.CustomEntityNotFoundException;
@@ -7,6 +8,7 @@ import fr.cda.botteprintemps.repository.redditish.UserRedditishRepository;
 import fr.cda.botteprintemps.service.interfaces.ServiceListInterface;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -106,5 +108,14 @@ public class UserRedditishService implements
             authorities.add(new SimpleGrantedAuthority(r));
         });
         return authorities;
+    }
+
+    public PageImpl<UserDisplayDTO> listDTO(Pageable pageable) {
+        Page<UserRedditish> page = repository.findAll(pageable);
+        List<UserDisplayDTO> list = new ArrayList<>();
+        page.forEach((user) -> {
+            list.add(new UserDisplayDTO(user.getEmail(), user.getNickname(), user.getRegisteredAt()));
+        });
+        return new PageImpl<>(list, pageable, list.size());
     }
 }
