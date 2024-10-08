@@ -37,13 +37,14 @@ public class SecurityConfig {
                 auth
                     .requestMatchers("/api/login", "/api/register").permitAll()
                     .requestMatchers(
+                        AntPathRequestMatcher.antMatcher("/api/user/**"),
                         AntPathRequestMatcher.antMatcher("/v3/api-docs/**"),
                         AntPathRequestMatcher.antMatcher("/swagger-ui/**"),
                         AntPathRequestMatcher.antMatcher(HttpMethod.GET,"/api/thread/**"),
-                        AntPathRequestMatcher.antMatcher(HttpMethod.GET,"/api/category/**")
+                        AntPathRequestMatcher.antMatcher(HttpMethod.GET,"/api/thread/**"),
+                        AntPathRequestMatcher.antMatcher("/api/media/**")
                     ).permitAll()
-                    .requestMatchers(
-                        AntPathRequestMatcher.antMatcher("/api/user/**"), // For a real API, we don't need it, it just an example !
+                    .requestMatchers( // For a real API, we don't need it, it just an example !
                         AntPathRequestMatcher.antMatcher("/api/comment/**"),
                         AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/thread"),
                         AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/reaction"),

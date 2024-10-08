@@ -7,14 +7,24 @@ import fr.cda.botteprintemps.dto.redditish.UserUpdateDTO;
 import fr.cda.botteprintemps.entity.User;
 import fr.cda.botteprintemps.entity.redditish.UserRedditish;
 import fr.cda.botteprintemps.json_views.JsonViews;
+import fr.cda.botteprintemps.repository.redditish.UserRedditishRepository;
 import fr.cda.botteprintemps.service.redditish.UserRedditishService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -23,12 +33,13 @@ import java.util.Map;
 public class UserRedditishRestController {
 
     private UserRedditishService userRedditishService;
+    private UserRedditishRepository userRedditishRepository;
 
     // Requête HTTP de type GET
     @GetMapping(name = "list")
     @JsonView(JsonViews.UserRedditishList.class)
     public List<UserRedditish> list() {
-        return userRedditishService.list();
+        return userRedditishRepository.findAll();
     }
 
     @GetMapping(value = "/{slug}", name = "show")
